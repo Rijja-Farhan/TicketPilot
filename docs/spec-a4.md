@@ -11,13 +11,13 @@ Source: `docs/plan-a4.md`. Builds on `docs/spec-a1.md` (policy answers) and `doc
 | Component | Path | Notes |
 |---|---|---|
 | Messy KB generator | `tools/gen/make_messy_kb.py` | Seeded, synthetic. Writes `data/kb_raw/` (committed; ~19 files incl. 3 PDFs) |
-| Ingestion | `opspilot/ingest/` | load, clean, dedupe, metadata, chunk, index. One pure function per stage |
-| Embeddings | `opspilot/embeddings.py` | One interface; `fastembed` (live), `hash` (offline tests) |
-| Retrieval | `opspilot/retrieval.py` | BM25, dense, hybrid (reciprocal rank fusion) over chunk indexes |
-| Policy wiring | `opspilot/policies.py` | Same `search`/`answer` interface; uses the index when one is built |
-| Memory | `opspilot/memory.py` | Episodic and semantic, JSONL, expiry, `forget` |
+| Ingestion | `ticketpilot/ingest/` | load, clean, dedupe, metadata, chunk, index. One pure function per stage |
+| Embeddings | `ticketpilot/embeddings.py` | One interface; `fastembed` (live), `hash` (offline tests) |
+| Retrieval | `ticketpilot/retrieval.py` | BM25, dense, hybrid (reciprocal rank fusion) over chunk indexes |
+| Policy wiring | `ticketpilot/policies.py` | Same `search`/`answer` interface; uses the index when one is built |
+| Memory | `ticketpilot/memory.py` | Episodic and semantic, JSONL, expiry, `forget` |
 | Labelled set and splits | `tools/gen/make_labelled.py`, `tools/gen/make_splits.py` | Banking77 + CFPB narratives |
-| Classifier | `opspilot/classifier.py`, `ml/train.py` | TF-IDF + logistic regression |
+| Classifier | `ticketpilot/classifier.py`, `ml/train.py` | TF-IDF + logistic regression |
 | LLM comparison | `ml/compare_llm.py` | Same held-out sample, measured tokens and latency |
 
 ## Ingestion rules
@@ -60,7 +60,7 @@ Store IDs and short summaries only; no ticket bodies, names, or card/account num
 
 ## Commands
 - Build the messy KB: `python tools/gen/make_messy_kb.py`
-- Ingest and index: `python -m opspilot.ingest` (writes `data/index/<strategy>/` and `docs/a4-ingest-report.md`)
+- Ingest and index: `python -m ticketpilot.ingest` (writes `data/index/<strategy>/` and `docs/a4-ingest-report.md`)
 - Retrieval eval: `python evals/run_a4_retrieval.py`
 - Labelled set, splits, train, compare: `tools/gen/make_labelled.py`, `tools/gen/make_splits.py`, `ml/train.py`, `ml/compare_llm.py`
 - Tests: `LLM_PROVIDER=fake .venv/bin/python -m pytest -q`

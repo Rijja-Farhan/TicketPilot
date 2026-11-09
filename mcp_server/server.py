@@ -12,7 +12,7 @@ import httpx
 from mcp.server.mcpserver import MCPServer
 from pydantic import Field
 
-from opspilot.schemas import Category, Status
+from ticketpilot.schemas import Category, Status
 
 DEFAULT_API_URL = "http://127.0.0.1:8000"
 API_TIMEOUT_S = 5.0
@@ -65,11 +65,11 @@ def _check_limit(limit: int) -> dict | None:
 
 def build_server(client: httpx.AsyncClient | None = None) -> MCPServer:
     """Build the server. Pass a client to reuse it (tests use an in-process ASGI client)."""
-    server = MCPServer("opspilot-tools")
+    server = MCPServer("ticketpilot-tools")
 
     async def call(method: str, path: str, **kwargs) -> dict:
         own = client is None
-        http = client or httpx.AsyncClient(base_url=os.environ.get("OPSPILOT_API_URL", DEFAULT_API_URL), timeout=API_TIMEOUT_S)
+        http = client or httpx.AsyncClient(base_url=os.environ.get("TICKETPILOT_API_URL", DEFAULT_API_URL), timeout=API_TIMEOUT_S)
         try:
             resp = await http.request(method, path, **kwargs)
         except httpx.HTTPError:
@@ -161,7 +161,7 @@ def build_server(client: httpx.AsyncClient | None = None) -> MCPServer:
         if not isinstance(text, str) or not text.strip():
             return error("invalid_argument", "text must be a non-empty string.")
         try:
-            from opspilot.classifier import Classifier  # lazy: scikit-learn is slow to import
+            from ticketpilot.classifier import Classifier  # lazy: scikit-learn is slow to import
             clf = Classifier.load()
         except (OSError, ImportError, KeyError, EOFError, ValueError):
             return error("model_unavailable", "The ticket classifier is not available (run ml/train.py).")

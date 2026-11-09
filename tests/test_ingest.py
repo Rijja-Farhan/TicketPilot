@@ -3,11 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from opspilot.ingest import dedupe as dd
-from opspilot.ingest.clean import clean
-from opspilot.ingest.load import load_file
-from opspilot.ingest.model import Quarantined
-from opspilot.ingest.pipeline import choose_threshold, ingest, score_pairs
+from ticketpilot.ingest import dedupe as dd
+from ticketpilot.ingest.clean import clean
+from ticketpilot.ingest.load import load_file
+from ticketpilot.ingest.model import Quarantined
+from ticketpilot.ingest.pipeline import choose_threshold, ingest, score_pairs
 
 ROOT = Path(__file__).resolve().parents[1]
 

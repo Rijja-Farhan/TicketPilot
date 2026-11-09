@@ -1,4 +1,4 @@
-# Plan: A6, Eval suite and improvement loop (OpsPilot v3, part 2)
+# Plan: A6, Eval suite and improvement loop (TicketPilot v3, part 2)
 
 Source: syllabus A6 (Week 3, 10% of the evaluation phase). Rubric focus: D4 verification, D7 communication, D8 ML and data reasoning, D1 problem framing.
 
@@ -15,7 +15,7 @@ Deliverables (each maps to a section below):
 | Reward-design note with one gaming example | 7 |
 
 What we build on:
-- A1 has 15 questions (`evals/a1_questions.jsonl`), A4 has 20 retrieval questions and a 200-ticket LLM comparison, A5 writes one JSONL trace per run (`traces/runs/`) with phases and tool calls, and `opspilot/verify.py` already has deterministic claim checks. A6 reuses them; it does not restart from scratch.
+- A1 has 15 questions (`evals/a1_questions.jsonl`), A4 has 20 retrieval questions and a 200-ticket LLM comparison, A5 writes one JSONL trace per run (`traces/runs/`) with phases and tool calls, and `ticketpilot/verify.py` already has deterministic claim checks. A6 reuses them; it does not restart from scratch.
 - The classifier test split is fixed (`data/splits/`, checksums). A6 reads it, never regenerates it.
 - A5 must be in a stable state first (its files are uncommitted today). A6 reads the A5 trace format, so changes to it after A6 starts break the trajectory checks.
 

@@ -1,9 +1,9 @@
-# Plan: A7, Ambient agent capstone (OpsPilot v4)
+# Plan: A7, Ambient agent capstone (TicketPilot v4)
 
 Source: syllabus A7 (Week 4, 12% weight). Rubric focus: D1 framing, D3 architecture, D5 guardrails and security, D8 ML reasoning, D4 verification. Live session L3 is a capstone demo and viva, so every part has to be explainable.
 
 ## Context
-Make OpsPilot react to a stream of incoming tickets with no prompt. It triages and drafts, routes risky actions to a human, serves the classifier as a tool, and adds a volume anomaly detector. The stream must contain **duplicates, a burst, and prompt-injection tickets**.
+Make TicketPilot react to a stream of incoming tickets with no prompt. It triages and drafts, routes risky actions to a human, serves the classifier as a tool, and adds a volume anomaly detector. The stream must contain **duplicates, a burst, and prompt-injection tickets**.
 
 | Deliverable | Section |
 |---|---|
@@ -35,7 +35,7 @@ scheduled tick -------+-> durable queue (SQLite) -> worker -> triage pipeline ->
 file replay (tests) --+     dedupe, back-pressure                                            +-> approval queue -> human
                                                           \-> audit log (every step)             approve / edit / reject
 ```
-Package `opspilot/ambient/`: events, store, queue, dedupe, guard, policy, audit, triage, anomaly, approvals, cost, webhook, replay, CLI.
+Package `ticketpilot/ambient/`: events, store, queue, dedupe, guard, policy, audit, triage, anomaly, approvals, cost, webhook, replay, CLI.
 
 ## 3. Triggers and approval design
 - Triggers: webhook, a scheduled tick that runs the detector, file replay for tests and demos.

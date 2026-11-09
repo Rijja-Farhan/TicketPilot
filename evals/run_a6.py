@@ -23,8 +23,8 @@ sys.path.insert(0, str(ROOT))
 
 from evals import graders, harness, judge as judge_mod  # noqa: E402
 from evals.core import Case, load_cases  # noqa: E402
-from opspilot import config  # noqa: E402
-from opspilot.mcp_client import open_toolbox  # noqa: E402
+from ticketpilot import config  # noqa: E402
+from ticketpilot.mcp_client import open_toolbox  # noqa: E402
 
 RESULTS = ROOT / "evals" / "results"
 

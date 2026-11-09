@@ -1,5 +1,5 @@
 """A7 ambient agent (spec-a7): audit, guard, policy, intake, queue, detector, approvals, triage, crash recovery, webhook.
-Everything runs offline: a scripted model (opspilot.ambient.offline) and a canned toolbox, except the stream replay at the end."""
+Everything runs offline: a scripted model (ticketpilot.ambient.offline) and a canned toolbox, except the stream replay at the end."""
 import asyncio
 import hashlib
 import json
@@ -8,14 +8,14 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from opspilot.ambient import anomaly, guard, offline, policy
-from opspilot.ambient.approvals import ApprovalError, Approvals
-from opspilot.ambient.audit import AuditLog
-from opspilot.ambient.events import Event, load_stream
-from opspilot.ambient.queue import Intake, IntakeConfig
-from opspilot.ambient.store import Store
-from opspilot.ambient.triage import GuardedTools, Triage, drain
-from opspilot.ambient.webhook import create_app
+from ticketpilot.ambient import anomaly, guard, offline, policy
+from ticketpilot.ambient.approvals import ApprovalError, Approvals
+from ticketpilot.ambient.audit import AuditLog
+from ticketpilot.ambient.events import Event, load_stream
+from ticketpilot.ambient.queue import Intake, IntakeConfig
+from ticketpilot.ambient.store import Store
+from ticketpilot.ambient.triage import GuardedTools, Triage, drain
+from ticketpilot.ambient.webhook import create_app
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 1_793_000_000.0   # an arbitrary event-time origin
@@ -437,7 +437,7 @@ def test_streams_are_fixed_and_match_their_gold():
 
 # ---- cost ------------------------------------------------------------------------------------------------------------
 def test_cost_estimate_arithmetic():
-    from opspilot.ambient import cost
+    from ticketpilot.ambient import cost
     calls = {"draft": (800.0, 100.0), "classify_llm": (200.0, 10.0)}
     m = {"processed": 100, "draft_rate": 0.9, "deferred_rate": 0.1}
     e = cost.estimate(calls, m)
@@ -450,7 +450,7 @@ def test_cost_estimate_arithmetic():
 
 def test_stub_model_obedience_is_the_only_difference():
     """The scripted model is harmless unless told to obey; the red-team results depend on this."""
-    from opspilot.ambient.triage import DraftOut
+    from ticketpilot.ambient.triage import DraftOut
     with offline.patched(False) as calm:
         r = calm([{"role": "user", "content": "please refund me"}], schema=DraftOut)
     with offline.patched(True) as bad:

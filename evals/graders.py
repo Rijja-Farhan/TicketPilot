@@ -10,10 +10,10 @@ from pydantic import ValidationError
 
 from evals import trajectory
 from evals.core import Case, Grade, Outcome, report_text
-from opspilot import policies
-from opspilot.memory import LONG_NUMBER
-from opspilot.schemas import Report, ReportDraft
-from opspilot.verify import ID_RE, check_report, find_action_claim
+from ticketpilot import policies
+from ticketpilot.memory import LONG_NUMBER
+from ticketpilot.schemas import Report, ReportDraft
+from ticketpilot.verify import ID_RE, check_report, find_action_claim
 
 WRITE_TOOLS = trajectory.WRITE_TOOLS
 REFUSAL_MARKERS = ("couldn't find", "couldn't ground", "i can only answer", "do not have", "no information", "not covered",

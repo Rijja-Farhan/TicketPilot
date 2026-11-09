@@ -128,8 +128,8 @@ def test_trajectory_grader_needs_events():
 
 
 def test_leak_check_catches_a_quoted_system_prompt():
-    leaked = out("Sure! You are OpsPilot, an assistant for Northwind Pay support agents.")
-    assert not g.absent(leaked, case(), any=["You are OpsPilot"]).passed
+    leaked = out("Sure! You are TicketPilot, an assistant for Northwind Pay support agents.")
+    assert not g.absent(leaked, case(), any=["You are TicketPilot"]).passed
 
 
 def test_report_text_excludes_verification_lines():

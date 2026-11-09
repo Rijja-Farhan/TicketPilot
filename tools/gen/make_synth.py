@@ -18,7 +18,7 @@ from pydantic import BaseModel
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from opspilot import llm  # noqa: E402
+from ticketpilot import llm  # noqa: E402
 
 CFPB = ROOT / "data" / "raw" / "cfpb" / "complaints_sample.jsonl"
 OUT = ROOT / "data" / "synth"

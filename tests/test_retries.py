@@ -1,4 +1,4 @@
-from opspilot import coworker, fake_llm
+from ticketpilot import coworker, fake_llm
 from tests.coworker_helpers import checks, investigate, plan, reflect, report, tool
 
 RETRYABLE = {"error": {"code": "upstream_unavailable", "message": "down", "retryable": True}}

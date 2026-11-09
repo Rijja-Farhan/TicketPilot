@@ -1,6 +1,6 @@
 # A5 traces: three real runs, one failure
 
-Provider: Groq `openai/gpt-oss-120b`, 2026-11-01. Full JSONL traces were written to `traces/runs/<run_id>.jsonl` (gitignored); this file is the reading of each. Cost uses the placeholder price in `opspilot/config.py` (0.15 / 0.60 USD per 1M tokens), so treat it as an estimate. Latency is wall clock and includes Groq rate-limit waits.
+Provider: Groq `openai/gpt-oss-120b`, 2026-11-01. Full JSONL traces were written to `traces/runs/<run_id>.jsonl` (gitignored); this file is the reading of each. Cost uses the placeholder price in `ticketpilot/config.py` (0.15 / 0.60 USD per 1M tokens), so treat it as an estimate. Latency is wall clock and includes Groq rate-limit waits.
 
 | # | Run | Task | Result | Tool calls | Reflect rounds | Tokens | Seconds | Est. cost |
 |---|---|---|---|---|---|---|---|---|

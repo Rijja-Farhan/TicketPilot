@@ -1,7 +1,7 @@
 import json
 
-from opspilot import fake_llm
-from opspilot.trace import RunTrace
+from ticketpilot import fake_llm
+from ticketpilot.trace import RunTrace
 from tests.coworker_helpers import HAPPY, STEPS, checks, investigate, plan, reflect, report, tool
 
 
@@ -83,7 +83,7 @@ def test_need_more_runs_another_act_round():
 def test_model_error_in_plan_fails_cleanly(monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "groq")
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
-    monkeypatch.setattr("opspilot.config.load_dotenv", lambda *_: None)
+    monkeypatch.setattr("ticketpilot.config.load_dotenv", lambda *_: None)
     r = investigate()
     assert r.status == "failed" and r.stop_reason == "model_error" and r.findings == []
 
@@ -107,7 +107,7 @@ def test_model_failure_mid_run_keeps_the_evidence_and_says_why():
 
 
 def test_budget_stop_lists_the_steps_never_run():
-    from opspilot.budget import Budget
+    from ticketpilot.budget import Budget
     fake_llm.queue_responses(*HAPPY[:3], report(findings=[], summary="Partial."), checks())
     r = investigate(budget=Budget(max_tool_calls=1))
     assert r.stop_reason == "tool_budget" and r.status == "partial"
@@ -115,7 +115,7 @@ def test_budget_stop_lists_the_steps_never_run():
 
 
 def test_rate_limited_model_call_is_retried_by_the_harness(monkeypatch):
-    from opspilot import coworker, llm
+    from ticketpilot import coworker, llm
     waits, real = [], llm.complete
     state = {"n": 0}
 
@@ -133,7 +133,7 @@ def test_rate_limited_model_call_is_retried_by_the_harness(monkeypatch):
 
 
 def test_persistent_rate_limit_ends_as_a_partial_report_that_names_it(monkeypatch):
-    from opspilot import coworker, llm
+    from ticketpilot import coworker, llm
     monkeypatch.setattr(coworker, "_model_sleep", lambda s: None)
     real = llm.complete
 

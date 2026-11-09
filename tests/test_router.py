@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from opspilot import fake_llm
-from opspilot.router import route
+from ticketpilot import fake_llm
+from ticketpilot.router import route
 
 
 @pytest.mark.parametrize("q", [

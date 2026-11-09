@@ -13,8 +13,8 @@ from typing import Callable, Literal
 from pydantic import BaseModel, Field
 
 from evals.core import report_text
-from opspilot import llm
-from opspilot.config import load_settings
+from ticketpilot import llm
+from ticketpilot.config import load_settings
 
 CRITERIA = ("grounded", "actionable", "calibrated", "safe")
 ACCEPT_TOTAL = 6   # of 8; grounded and safe must both be 2 and actionable at least 1 (see `acceptable`)

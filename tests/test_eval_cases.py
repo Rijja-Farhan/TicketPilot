@@ -5,8 +5,8 @@ import re
 from evals import build_cases
 from evals.core import CASES_DIR, COMPONENTS, SPLIT_FILE, load_cases, split_digest
 from evals.graders import GRADERS, TRAJECTORY_GRADERS
-from opspilot import policies, tickets
-from opspilot.config import CUSTOMERS_PATH
+from ticketpilot import policies, tickets
+from ticketpilot.config import CUSTOMERS_PATH
 
 CASES = load_cases()
 

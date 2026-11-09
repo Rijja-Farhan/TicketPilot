@@ -1,6 +1,6 @@
 # A7: guardrail and permission policy
 
-Code: `opspilot/ambient/policy.py` (tiers, output checks), `guard.py` (input scan), `triage.py` (`GuardedTools`), `approvals.py`. Spec: `docs/spec-a7.md`.
+Code: `ticketpilot/ambient/policy.py` (tiers, output checks), `guard.py` (input scan), `triage.py` (`GuardedTools`), `approvals.py`. Spec: `docs/spec-a7.md`.
 
 The rule behind every choice: **the model may propose, only code decides.** A fooled model must not be able to do anything the policy would not allow a calm one to do.
 

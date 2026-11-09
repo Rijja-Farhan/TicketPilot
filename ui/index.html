@@ -1,4 +1,4 @@
-<title>Ops Pilot Live Flow</title>
+<title>Ticket Pilot Live Flow</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -180,7 +180,7 @@ tr.new td{animation:rowin .6s ease-out}
 <div class="app">
   <header class="top">
     <div class="brand">
-      <div class="brand-row"><h1>Ops Pilot</h1><span class="mode" id="mode">Demo · mock data</span></div>
+      <div class="brand-row"><h1>Ticket Pilot</h1><span class="mode" id="mode">Demo · mock data</span></div>
       <p class="muted">A ticket is created in Streak. Streak calls our webhook. The Ambient Agent picks the ticket up by itself and drafts a reply, which waits for a person to approve.</p>
     </div>
     <div class="controls">
@@ -336,7 +336,7 @@ const STAGES = [
    ---------------------------------------------------------------------
    toAgentEvent: maps a Streak webhook payload to the agent's event shape
                  (event_id, ts, customer_id, subject, body), as used by
-                 opspilot/ambient/webhook.py. Streak's real payload format
+                 ticketpilot/ambient/webhook.py. Streak's real payload format
                  must be checked and mapped here.
    transport.deliver(payload) -> {ok, status, body}   the webhook call
    transport.process(event, hint) -> async stream of updates:
@@ -358,7 +358,7 @@ function toAgentEvent(p) {
 const wait = (ms) => new Promise(r => setTimeout(r, ms * (0.85 + Math.random() * 0.3)));
 const UNSAFE = /ignore (all )?(previous|prior) (instructions|rules)|reveal your system prompt|you are now|without approval/i;
 
-/* Same rule as opspilot/ambient/dedupe.py: same customer, word-set Jaccard >= 0.7, within 30 minutes. */
+/* Same rule as ticketpilot/ambient/dedupe.py: same customer, word-set Jaccard >= 0.7, within 30 minutes. */
 const wordSet = (s) => new Set((s.toLowerCase().match(/[a-z0-9]+/g) || []));
 const jaccard = (a, b) => { let n = 0; for (const w of a) if (b.has(w)) n++; const u = a.size + b.size - n; return u ? n / u : 0; };
 
@@ -413,7 +413,7 @@ const MockTransport = {
   }
 };
 
-/* The real adapter, used when the page is served by `python -m opspilot.ambient serve` at /ui.
+/* The real adapter, used when the page is served by `python -m ticketpilot.ambient serve` at /ui.
    deliver() posts to the real webhook. process() polls GET /events/{id} and turns the agent's
    audit steps into the six stages. decide() calls the real approval queue. */
 const CATEGORY_NAME = { card_issues: 'Card issue', transfers_payments: 'Transfers and payments', disputes_refunds: 'Dispute or refund',

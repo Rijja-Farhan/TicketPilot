@@ -7,10 +7,10 @@ from mcp import Client
 
 from mcp_server.server import build_server
 from mockapi.main import app
-from opspilot import coworker, fake_llm
-from opspilot.budget import Budget
-from opspilot.mcp_client import open_toolbox
-from opspilot.schemas import Category  # noqa: F401  (keeps the import graph honest)
+from ticketpilot import coworker, fake_llm
+from ticketpilot.budget import Budget
+from ticketpilot.mcp_client import open_toolbox
+from ticketpilot.schemas import Category  # noqa: F401  (keeps the import graph honest)
 
 STEPS = [{"step": "Read the ticket", "evidence_needed": "ticket", "tool": "get_ticket"},
          {"step": "Read the customer", "evidence_needed": "customer", "tool": "get_customer"},

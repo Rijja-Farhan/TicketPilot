@@ -1,7 +1,7 @@
 import pytest
 
-from opspilot import fake_llm
-from opspilot.budget import Budget, StopRun
+from ticketpilot import fake_llm
+from ticketpilot.budget import Budget, StopRun
 from tests.coworker_helpers import HAPPY, checks, investigate, plan, reflect, report, tool
 
 

@@ -1,7 +1,7 @@
 """Each trajectory check on one good and one bad hand-built trace, plus all checks on a real (scripted) A5 run."""
 from evals import trajectory as t
-from opspilot import fake_llm
-from opspilot.trace import RunTrace
+from ticketpilot import fake_llm
+from ticketpilot.trace import RunTrace
 from tests.coworker_helpers import HAPPY, investigate
 
 

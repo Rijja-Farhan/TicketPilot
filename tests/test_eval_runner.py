@@ -10,8 +10,8 @@ from evals import graders, harness, run_a6
 from evals.core import Outcome, load_cases
 from mcp_server.server import build_server
 from mockapi.main import app
-from opspilot import fake_llm
-from opspilot.mcp_client import open_toolbox
+from ticketpilot import fake_llm
+from ticketpilot.mcp_client import open_toolbox
 from tests.coworker_helpers import HAPPY
 
 CASES = load_cases()
@@ -24,7 +24,7 @@ def suite(cases, tmp_path):
 
 def test_offline_cases_all_pass(tmp_path):
     needs_model = [c.id for c in OFFLINE if c.component == "classifier"]
-    from opspilot.classifier import MODEL_PATH
+    from ticketpilot.classifier import MODEL_PATH
     cases = [c for c in OFFLINE if MODEL_PATH.exists() or c.id not in needs_model]
     bad = [(r["id"], [g for g in r["grades"] if not g["passed"]]) for r in suite(cases, tmp_path) if not r["passed"]]
     assert not bad, bad

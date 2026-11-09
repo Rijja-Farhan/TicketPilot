@@ -1,6 +1,6 @@
 import json
 
-from opspilot import fake_llm, policies
+from ticketpilot import fake_llm, policies
 
 
 def _reply(*sources, answer="ok"):

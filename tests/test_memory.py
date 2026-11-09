@@ -7,9 +7,9 @@ from mcp import Client
 
 from mcp_server.server import build_server
 from mockapi.main import app
-from opspilot import agent, cli, fake_llm
-from opspilot.mcp_client import open_toolbox
-from opspilot.memory import MAX_SUMMARY, Memory, extract_fact, redact, summarize_run
+from ticketpilot import agent, cli, fake_llm
+from ticketpilot.mcp_client import open_toolbox
+from ticketpilot.memory import MAX_SUMMARY, Memory, extract_fact, redact, summarize_run
 
 T0 = datetime(2026, 11, 1, 12, 0, tzinfo=timezone.utc)
 
@@ -226,7 +226,7 @@ def test_step_limit_run_still_records_its_episode(mem):
 
 def test_cli_forget_and_show_memory(monkeypatch, tmp_path, capsys):
     path = tmp_path / "cli-memory.jsonl"
-    monkeypatch.setenv("OPSPILOT_MEMORY_PATH", str(path))
+    monkeypatch.setenv("TICKETPILOT_MEMORY_PATH", str(path))
     Memory().remember_episode("C-17", [], "Session answered.")
     assert cli.main(["--show-memory", "c-17"]) == 0 and "Session answered." in capsys.readouterr().out
     assert cli.main(["--forget", "c-17"]) == 0 and "Forgot 1 entries for C-17" in capsys.readouterr().out

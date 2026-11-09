@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT))
 
 from ml.data import CATEGORIES, load_split  # noqa: E402
 from ml.metrics import confusion_md, per_class, table  # noqa: E402
-from opspilot.classifier import Classifier, build_pipeline  # noqa: E402
+from ticketpilot.classifier import Classifier, build_pipeline  # noqa: E402
 
 C_GRID = [1.0, 3.0, 10.0, 30.0]
 THRESHOLD_GRID = [round(x * 0.05, 2) for x in range(0, 20)]
