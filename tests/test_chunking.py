@@ -1,7 +1,7 @@
 import re
 
-from opspilot.ingest.chunk import FIXED_OVERLAP, FIXED_SIZE, chunk_fixed, chunk_structured
-from opspilot.ingest.metadata import make_document
+from ticketpilot.ingest.chunk import FIXED_OVERLAP, FIXED_SIZE, chunk_fixed, chunk_structured
+from ticketpilot.ingest.metadata import make_document
 
 
 def doc(body: str, **meta):
@@ -75,7 +75,7 @@ def test_no_chunk_is_only_a_heading_or_header():
 
 def test_every_structured_chunk_of_the_real_corpus_has_body_text():
     from pathlib import Path
-    from opspilot.ingest.pipeline import ingest
+    from ticketpilot.ingest.pipeline import ingest
     for d in ingest(Path(__file__).resolve().parents[1] / "data" / "kb_raw").docs:
         for c in chunk_structured(d):
             lines = [ln for ln in c.text.split("\n")[1:] if ln.strip() and not ln.startswith("#")]

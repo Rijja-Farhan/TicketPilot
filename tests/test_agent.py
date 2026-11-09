@@ -8,8 +8,8 @@ from mcp import Client
 
 from mcp_server.server import build_server
 from mockapi.main import app
-from opspilot import agent, fake_llm
-from opspilot.mcp_client import open_toolbox
+from ticketpilot import agent, fake_llm
+from ticketpilot.mcp_client import open_toolbox
 
 
 @pytest.fixture(autouse=True)

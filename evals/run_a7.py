@@ -16,12 +16,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from opspilot import config  # noqa: E402
-from opspilot.ambient import anomaly, offline, policy  # noqa: E402
-from opspilot.ambient.audit import AuditLog  # noqa: E402
-from opspilot.ambient.events import load_stream, parse_ts  # noqa: E402
-from opspilot.ambient.replay import inprocess_toolbox, replay  # noqa: E402
-from opspilot.ambient.store import Store  # noqa: E402
+from ticketpilot import config  # noqa: E402
+from ticketpilot.ambient import anomaly, offline, policy  # noqa: E402
+from ticketpilot.ambient.audit import AuditLog  # noqa: E402
+from ticketpilot.ambient.events import load_stream, parse_ts  # noqa: E402
+from ticketpilot.ambient.replay import inprocess_toolbox, replay  # noqa: E402
+from ticketpilot.ambient.store import Store  # noqa: E402
 
 STREAMS = ROOT / "data" / "stream"
 RESULTS = ROOT / "evals" / "results"
@@ -46,7 +46,7 @@ async def run_stream(name: str, params: anomaly.Params, *, use_stub: bool, obedi
     events, gl = [p[0] for p in pairs], [p[1] for p in pairs]
     store, audit = Store(workdir / "ambient.db"), AuditLog(workdir / "audit.jsonl")
     start = parse_ts(events[0].ts[:11] + "08:00:00Z")
-    from opspilot.mcp_client import open_toolbox
+    from ticketpilot.mcp_client import open_toolbox
     async with (inprocess_toolbox() if (use_stub or inprocess) else open_toolbox()) as tb:
         if use_stub:
             with offline.patched(obedient):

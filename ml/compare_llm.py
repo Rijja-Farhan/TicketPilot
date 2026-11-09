@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT))
 
 from ml.data import CATEGORIES, load_split  # noqa: E402
 from ml.metrics import per_class, table  # noqa: E402
-from opspilot.classifier import Classifier, llm_classify  # noqa: E402
+from ticketpilot.classifier import Classifier, llm_classify  # noqa: E402
 
 SAMPLE_IDS = ROOT / "ml" / "compare_sample_ids.json"
 CACHE = ROOT / "ml" / "artifacts" / "llm_cache.jsonl"

@@ -8,8 +8,8 @@ import json
 import sys
 import time
 
-from opspilot import cli
-from opspilot.mcp_client import ToolBox
+from ticketpilot import cli
+from ticketpilot.mcp_client import ToolBox
 
 QUESTIONS = [
     "why is T-1002 still open?",

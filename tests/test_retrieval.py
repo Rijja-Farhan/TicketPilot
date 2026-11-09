@@ -3,10 +3,10 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from opspilot import fake_llm, policies
-from opspilot.embeddings import HashEmbedder, get_embedder
-from opspilot.ingest.pipeline import build_indexes, ingest
-from opspilot.retrieval import ALL_STATUSES, CURRENT, WITH_HISTORY, Index
+from ticketpilot import fake_llm, policies
+from ticketpilot.embeddings import HashEmbedder, get_embedder
+from ticketpilot.ingest.pipeline import build_indexes, ingest
+from ticketpilot.retrieval import ALL_STATUSES, CURRENT, WITH_HISTORY, Index
 from mockapi.main import app
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -82,7 +82,7 @@ def test_unknown_embedder_rejected():
 
 @pytest.fixture
 def use_index(built, monkeypatch):
-    monkeypatch.setenv("OPSPILOT_INDEX_DIR", str(built))
+    monkeypatch.setenv("TICKETPILOT_INDEX_DIR", str(built))
     policies._load_index.cache_clear()
     yield
     policies._load_index.cache_clear()

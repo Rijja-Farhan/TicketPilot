@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT))
 
 from ml.data import CATEGORIES, load_split  # noqa: E402
 from ml.metrics import confusion_md, per_class  # noqa: E402
-from opspilot.classifier import Classifier, llm_classify  # noqa: E402
+from ticketpilot.classifier import Classifier, llm_classify  # noqa: E402
 
 CACHE = ROOT / "ml" / "artifacts" / "a6_llm_val_cache.jsonl"
 FRAUD = "fraud_security"

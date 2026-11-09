@@ -10,12 +10,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from evals.core import Case, Outcome, report_text
-from opspilot import agent, cli, coworker, llm, runstate
-from opspilot.budget import Budget
-from opspilot.mcp_client import open_toolbox
-from opspilot.memory import Memory
-from opspilot.router import route
-from opspilot.trace import RunTrace
+from ticketpilot import agent, cli, coworker, llm, runstate
+from ticketpilot.budget import Budget
+from ticketpilot.mcp_client import open_toolbox
+from ticketpilot.memory import Memory
+from ticketpilot.router import route
+from ticketpilot.trace import RunTrace
 
 TICKET = re.compile(r"\bT-\d+\b", re.I)
 
@@ -64,9 +64,9 @@ def counting():
 def isolated_env(trace_dir: Path | None = None):
     """Per-case memory file and run-state dir; coworker traces go to `trace_dir` when given."""
     tmp = tempfile.TemporaryDirectory()
-    keys = {"OPSPILOT_MEMORY_PATH": str(Path(tmp.name) / "memory.jsonl"), "OPSPILOT_RUNS_DIR": str(Path(tmp.name) / "runs")}
+    keys = {"TICKETPILOT_MEMORY_PATH": str(Path(tmp.name) / "memory.jsonl"), "TICKETPILOT_RUNS_DIR": str(Path(tmp.name) / "runs")}
     if trace_dir:
-        keys["OPSPILOT_RUN_TRACE_DIR"] = str(trace_dir)
+        keys["TICKETPILOT_RUN_TRACE_DIR"] = str(trace_dir)
     old = {k: os.environ.get(k) for k in keys}
     os.environ.update(keys)
     try:
@@ -114,7 +114,7 @@ def memory_scenario(name: str, path: Path) -> Outcome:
 # ---- classifier ------------------------------------------------------------------------------------------------------
 
 def classify(text: str) -> Outcome:
-    from opspilot.classifier import MODEL_PATH, Classifier
+    from ticketpilot.classifier import MODEL_PATH, Classifier
     if not MODEL_PATH.exists():
         return Outcome(error="classifier model missing: run ml/train.py")
     p = Classifier.load().predict(text)

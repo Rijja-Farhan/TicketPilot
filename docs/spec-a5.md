@@ -1,4 +1,4 @@
-# Spec: A5, coworker agent with harness (OpsPilot v3)
+# Spec: A5, coworker agent with harness (TicketPilot v3)
 
 Source: `docs/plan-a5.md`. Builds on `docs/spec-a3.md` (tools, agent), `docs/spec-a4.md` (memory, classifier, retrieval). The A3 agent stays the assistant path; the coworker is a new module, so A1, A3 and A4 behaviour does not change.
 
@@ -7,7 +7,7 @@ Input: a delegated task naming one ticket, e.g. `investigate T-1002 and draft a 
 Output: a **report for human review** (`schemas.Report`). It is a draft: it never says an action was taken; things a human could do are `proposed_actions`.
 
 ## Loop
-PLAN once, then ACT, OBSERVE, REFLECT until REFLECT says `enough` or a stop rule fires, then VERIFY, then REPORT. One function per phase in `opspilot/coworker.py`.
+PLAN once, then ACT, OBSERVE, REFLECT until REFLECT says `enough` or a stop rule fires, then VERIFY, then REPORT. One function per phase in `ticketpilot/coworker.py`.
 
 | Phase | Decides | Call type |
 |---|---|---|
@@ -58,7 +58,7 @@ Code checks decide pass or fail: (1) every evidence ID exists; (2) every ID, amo
 11. A1, A3 and A4 behaviour unchanged; `LLM_PROVIDER` still the only switch; offline suite passes; no secrets or run files committed.
 
 ## Commands
-- Run: `python -m opspilot "investigate T-1002"`, `--runs`, `--resume RUN_ID`
+- Run: `python -m ticketpilot "investigate T-1002"`, `--runs`, `--resume RUN_ID`
 - Live runs: `PYTHONPATH=. python evals/run_a5.py`
 - Tests: `LLM_PROVIDER=fake .venv/bin/python -m pytest -q`
 

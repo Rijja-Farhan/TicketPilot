@@ -6,8 +6,8 @@ import openai
 import pytest
 from pydantic import BaseModel
 
-from opspilot import fake_llm, llm
-from opspilot.config import PROVIDERS, load_settings
+from ticketpilot import fake_llm, llm
+from ticketpilot.config import PROVIDERS, load_settings
 
 
 class Answer(BaseModel):
@@ -118,7 +118,7 @@ def test_429_exhausted_is_typed_error(monkeypatch):
 def test_missing_key_is_typed_error(monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "groq")
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
-    monkeypatch.setattr("opspilot.config.load_dotenv", lambda *a, **k: None)
+    monkeypatch.setattr("ticketpilot.config.load_dotenv", lambda *a, **k: None)
     r = llm.complete(MSGS)
     assert r.error.code == "missing_api_key"
 

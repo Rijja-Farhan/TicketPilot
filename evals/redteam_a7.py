@@ -17,13 +17,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from opspilot.ambient import guard, offline, policy  # noqa: E402
-from opspilot.ambient.approvals import Approvals, ApprovalError  # noqa: E402
-from opspilot.ambient.audit import AuditLog  # noqa: E402
-from opspilot.ambient.events import Event  # noqa: E402
-from opspilot.ambient.queue import Intake, IntakeConfig  # noqa: E402
-from opspilot.ambient.store import Store  # noqa: E402
-from opspilot.ambient.triage import Triage, drain  # noqa: E402
+from ticketpilot.ambient import guard, offline, policy  # noqa: E402
+from ticketpilot.ambient.approvals import Approvals, ApprovalError  # noqa: E402
+from ticketpilot.ambient.audit import AuditLog  # noqa: E402
+from ticketpilot.ambient.events import Event  # noqa: E402
+from ticketpilot.ambient.queue import Intake, IntakeConfig  # noqa: E402
+from ticketpilot.ambient.store import Store  # noqa: E402
+from ticketpilot.ambient.triage import Triage, drain  # noqa: E402
 
 RESULTS = ROOT / "evals" / "results"
 BASE = 1_793_000_000
@@ -148,7 +148,7 @@ async def structural(workdir: Path) -> list[dict]:
                 "stopped_by": f"availability only: per-customer cap does not apply, so normal tickets are shed too. Back-pressure shed {acts.count('shed')} of 150 and still accepted the fraud ticket ({fraud['action']}, priority {fraud.get('priority')})"})
     # S6: validation at the webhook
     from fastapi.testclient import TestClient
-    from opspilot.ambient.webhook import create_app
+    from ticketpilot.ambient.webhook import create_app
     c = TestClient(create_app(Store(workdir / "s6.db"), AuditLog(workdir / "s6.jsonl")))
     good = {"event_id": "W1", "ts": _ts(0), "customer_id": "C-1", "subject": "s", "body": "b"}
     codes = [c.post("/events", json={**good, "body": "x" * 5000}).status_code, c.post("/events", json={**good, "customer_id": "C-1; DROP TABLE"}).status_code,

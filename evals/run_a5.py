@@ -4,9 +4,9 @@ import asyncio
 import json
 import sys
 
-from opspilot import coworker
-from opspilot.mcp_client import open_toolbox
-from opspilot.trace import RunTrace
+from ticketpilot import coworker
+from ticketpilot.mcp_client import open_toolbox
+from ticketpilot.trace import RunTrace
 
 TASKS = {"1": ("investigate T-1002 and draft a resolution with evidence", "T-1002"),
          "2": ("investigate T-1068 and draft a resolution with evidence", "T-1068"),

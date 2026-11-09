@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 from evals import graders, trajectory  # noqa: E402
 from evals.core import Case, Outcome, report_text  # noqa: E402
 from ml.train import keyword_predict  # noqa: E402
-from opspilot import tickets  # noqa: E402
+from ticketpilot import tickets  # noqa: E402
 
 MUST_HAVE = ("get_ticket", "get_customer", "search_policies")   # the plan's must-have evidence for a ticket investigation
 MIN_FINDINGS = 2

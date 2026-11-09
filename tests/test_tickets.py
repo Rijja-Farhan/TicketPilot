@@ -1,8 +1,8 @@
 import json
 import time
 
-from opspilot import tickets
-from opspilot.schemas import TicketLookup
+from ticketpilot import tickets
+from ticketpilot.schemas import TicketLookup
 
 
 def test_known_ticket_is_schema_valid():

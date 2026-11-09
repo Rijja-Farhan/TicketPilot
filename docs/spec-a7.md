@@ -1,6 +1,6 @@
-# Spec: A7, ambient agent (OpsPilot v4)
+# Spec: A7, ambient agent (TicketPilot v4)
 
-Source: `docs/plan-a7.md`. Builds on `docs/spec-a3.md` (tools), `docs/spec-a4.md` (classifier, threshold 0.7), `docs/spec-a5.md` (budgets, verify, durability) and `docs/spec-a6.md` (eval method). A1 to A6 behaviour does not change; everything new is in `opspilot/ambient/`.
+Source: `docs/plan-a7.md`. Builds on `docs/spec-a3.md` (tools), `docs/spec-a4.md` (classifier, threshold 0.7), `docs/spec-a5.md` (budgets, verify, durability) and `docs/spec-a6.md` (eval method). A1 to A6 behaviour does not change; everything new is in `ticketpilot/ambient/`.
 
 ## Contract
 Input: an event stream (`Event`). Output: per-ticket annotations (category, priority, duplicate link, quarantine flag), approval items (drafts and risky actions awaiting a human), alerts, and an audit log. The agent never sends a reply and never executes a denied action.
