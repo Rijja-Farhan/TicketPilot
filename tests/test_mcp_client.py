@@ -1,12 +1,12 @@
 import asyncio
 import sys
 
-from opspilot.mcp_client import open_toolbox
+from ticketpilot.mcp_client import open_toolbox
 
 
 def test_stdio_roundtrip_with_unreachable_api(monkeypatch):
     """Launches the real server as a subprocess; the API port is closed, so tools must fail cleanly."""
-    monkeypatch.setenv("OPSPILOT_API_URL", "http://127.0.0.1:9")
+    monkeypatch.setenv("TICKETPILOT_API_URL", "http://127.0.0.1:9")
 
     async def go():
         async with open_toolbox() as toolbox:

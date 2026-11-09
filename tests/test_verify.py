@@ -1,8 +1,8 @@
 import json
 
-from opspilot import fake_llm
-from opspilot.schemas import Citation, Finding, ReportDraft
-from opspilot.verify import REMOVED, check_report, strip_failures, summarize
+from ticketpilot import fake_llm
+from ticketpilot.schemas import Citation, Finding, ReportDraft
+from ticketpilot.verify import REMOVED, check_report, strip_failures, summarize
 from tests.coworker_helpers import checks, investigate, plan, reflect, report, tool
 
 POLICY = {"policies": [{"slug": "fees-schedule-v2", "title": "Fees Schedule", "version": 2,
@@ -66,7 +66,7 @@ def test_claims_of_actions_taken_fail():
 
 
 def test_classifier_label_must_match_evidence():
-    from opspilot.schemas import CategoryResult
+    from ticketpilot.schemas import CategoryResult
     led = LEDGER + [{"id": "E4", "tool": "classify_ticket", "ok": True, "arguments": {}, "timestamp": "",
                      "result": {"label": "fees_charges", "probability": 0.91}}]
     good = draft(category=CategoryResult(label="fees_charges", classifier_label="fees_charges", probability=0.91, evidence_ids=["E4"]))
@@ -116,13 +116,13 @@ def test_model_check_is_advisory_only():
 # ---- A6 baseline findings -------------------------------------------------------------------------------------------
 
 def _draft(**kw):
-    from opspilot.schemas import ReportDraft
+    from ticketpilot.schemas import ReportDraft
     base = dict(ticket_id="T-1", summary="s", findings=[], policy_citations=[], proposed_resolution="r")
     return ReportDraft(**{**base, **kw})
 
 
 def test_action_claims_now_cover_freezes_and_blocks():
-    from opspilot.verify import find_action_claim
+    from ticketpilot.verify import find_action_claim
     for bad in ("We've placed a freeze on your card as you requested.", "We froze the card.", "I have flagged the account.",
                 "A freeze has been placed on the card.", "We've contacted the merchant."):
         assert find_action_claim(bad), bad
@@ -133,8 +133,8 @@ def test_action_claims_now_cover_freezes_and_blocks():
 
 
 def test_category_from_a_deferred_classifier_result_is_rejected():
-    from opspilot.schemas import CategoryResult
-    from opspilot.verify import check_report
+    from ticketpilot.schemas import CategoryResult
+    from ticketpilot.verify import check_report
     ledger = [{"id": "E1", "tool": "get_ticket", "ok": True, "arguments": {}, "result": {"ticket_id": "T-1", "category": "other"}},
               {"id": "E2", "tool": "classify_ticket", "ok": True, "arguments": {},
                "result": {"label": "fraud_security", "probability": 0.39, "deferred": True}}]
@@ -149,8 +149,8 @@ def test_category_from_a_deferred_classifier_result_is_rejected():
 
 
 def test_policy_citation_for_a_missing_ticket_is_rejected():
-    from opspilot.schemas import Citation
-    from opspilot.verify import check_report
+    from ticketpilot.schemas import Citation
+    from ticketpilot.verify import check_report
     ledger = [{"id": "E1", "tool": "get_ticket", "ok": False, "arguments": {}, "result": {"error": {"code": "not_found", "message": "x", "retryable": False}}},
               {"id": "E2", "tool": "search_policies", "ok": True, "arguments": {},
                "result": {"policies": [{"title": "Fees Schedule", "version": 2, "effective_date": "2026-03-01", "status": "current"}]}}]

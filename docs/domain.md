@@ -34,7 +34,7 @@ Each policy has versions with an effective date; older versions stay in the KB a
 ## Incidents
 Platform incidents (card processing down, transfers delayed, login outage, app crash) with severity, affected service, timeline, root cause and resolution. Incident clusters cause ticket bursts.
 
-## Users of OpsPilot
+## Users of TicketPilot
 Internal support agents and on-call operations staff, not end customers.
 
 ## What a human must approve (initial view)

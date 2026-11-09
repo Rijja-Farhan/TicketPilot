@@ -5,7 +5,7 @@ description: Triage one Northwind Pay support ticket. Use when asked to review, 
 
 # Triage a support ticket
 
-Use the OpsPilot MCP tools. Work in this order and stop as soon as you can answer.
+Use the TicketPilot MCP tools. Work in this order and stop as soon as you can answer.
 
 1. **Get the ticket.** `get_ticket` with the T- ID. If `not_found`, say so and stop. Do not guess another ID.
 2. **Check the customer.** `get_customer` and `search_tickets` (same `customer_id`, `limit` 5) to see repeat issues. Add `list_transactions` (`limit` 10) only when the ticket is about a payment, charge, fee or fraud.

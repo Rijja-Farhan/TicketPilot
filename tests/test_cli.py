@@ -1,9 +1,9 @@
 import json
 from contextlib import asynccontextmanager
 
-from opspilot import fake_llm
-from opspilot.cli import REFUSAL, dispatch, main
-from opspilot.schemas import CustomerTickets, TicketLookup
+from ticketpilot import fake_llm
+from ticketpilot.cli import REFUSAL, dispatch, main
+from ticketpilot.schemas import CustomerTickets, TicketLookup
 
 
 def test_ticket_lookup_end_to_end_no_llm():
@@ -24,7 +24,7 @@ def test_customer_tickets():
 
 def test_ticket_question_goes_to_the_agent(monkeypatch):
     asked = []
-    monkeypatch.setattr("opspilot.cli._ask_agent", lambda q: asked.append(q) or "agent answer")
+    monkeypatch.setattr("ticketpilot.cli._ask_agent", lambda q: asked.append(q) or "agent answer")
     assert dispatch("why is T-1001 still open?") == "agent answer"
     assert dispatch("is C-17 a repeat complainer?") == "agent answer"
     assert asked == ["why is T-1001 still open?", "is C-17 a repeat complainer?"]
@@ -36,7 +36,7 @@ def test_agent_failure_is_a_clear_message(monkeypatch):
         raise OSError("no server")
         yield
 
-    monkeypatch.setattr("opspilot.cli.open_toolbox", no_server)
+    monkeypatch.setattr("ticketpilot.cli.open_toolbox", no_server)
     out = dispatch("why is T-1001 still open?")
     assert "tool server" in out and "OSError" in out
 
@@ -68,7 +68,7 @@ def test_main_prints_json(capsys):
 
 def test_investigate_goes_to_the_coworker(monkeypatch):
     asked = []
-    monkeypatch.setattr("opspilot.cli._run_coworker", lambda q, t: asked.append((q, t)) or "report")
+    monkeypatch.setattr("ticketpilot.cli._run_coworker", lambda q, t: asked.append((q, t)) or "report")
     assert dispatch("investigate T-1002") == "report" and asked == [("investigate T-1002", "T-1002")]
 
 

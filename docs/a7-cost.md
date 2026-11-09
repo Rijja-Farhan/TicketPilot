@@ -1,6 +1,6 @@
 # A7: cost per 1,000 tickets, with and without the classifier
 
-Code: `opspilot/ambient/cost.py`. Run: `PYTHONPATH=. python -m opspilot.ambient.cost evals/results/a7-offline.json evals/results/a7-live-sample.json`.
+Code: `ticketpilot/ambient/cost.py`. Run: `PYTHONPATH=. python -m ticketpilot.ambient.cost evals/results/a7-offline.json evals/results/a7-live-sample.json`.
 
 ## What is measured and what is extrapolated
 | Quantity | Source | Status |

@@ -7,8 +7,8 @@ import pytest
 
 from ml import data, train
 from ml.metrics import per_class
-from opspilot import classifier, fake_llm
-from opspilot.classifier import Classifier, build_pipeline, classify, llm_classify
+from ticketpilot import classifier, fake_llm
+from ticketpilot.classifier import Classifier, build_pipeline, classify, llm_classify
 
 ROOT = Path(__file__).resolve().parents[1]
 needs_raw = pytest.mark.skipif(not (data.B77 / "test.csv").exists(), reason="data/raw/banking77 not downloaded")

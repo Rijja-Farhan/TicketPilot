@@ -1,4 +1,4 @@
-# Plan: A4, Data plumbing, memory and a classifier baseline (OpsPilot v2, part 2)
+# Plan: A4, Data plumbing, memory and a classifier baseline (TicketPilot v2, part 2)
 
 Source: syllabus A4 (Week 2, 9% of the evaluation phase). Rubric focus: D3 architecture, D4 verification, D8 ML and data reasoning, D1 problem framing.
 
@@ -16,7 +16,7 @@ Deliverables (each maps to a section below):
 
 Gaps in the repo today:
 - `data/kb/` has 5 clean hand-written docs. The syllabus KB is messy (duplicates, outdated policies, scanned PDFs), and we have no starter kit, so we build the messy corpus ourselves.
-- A1 retrieval is BM25 over whole docs (`opspilot/policies.py`). A4 replaces it, but A1 behaviour and tests must keep passing.
+- A1 retrieval is BM25 over whole docs (`ticketpilot/policies.py`). A4 replaces it, but A1 behaviour and tests must keep passing.
 - No `scikit-learn`, no embedding model and no OCR installed. Installs are a decision point (see Open questions).
 - `tickets.jsonl` (300 rows) was sampled from Banking77 `train.csv` and has no `loans_credit` rows and only 8 `disputes_refunds` rows. Too small and skewed to train or test on. A4 builds a bigger labelled set from `data/raw/`.
 - No memory exists. The agent forgets everything between questions.
@@ -26,7 +26,7 @@ Gaps in the repo today:
 - **Fix the train/test split once, before inspecting data** (AGENTS.md rule). A script writes `data/splits/{train,val,test}_ids.json` plus a checksum file; nothing may change them afterwards. Details in section 5.
 - Write the 20 retrieval test questions and their gold answers **before** looking at what any retriever returns.
 
-## 1. Ingestion pipeline (`opspilot/ingest/`)
+## 1. Ingestion pipeline (`ticketpilot/ingest/`)
 Messy corpus: extend `data/kb/` to about 20 files via a seeded generator `tools/gen/make_messy_kb.py`, all synthetic:
 - exact duplicates and near-duplicates (reformatted copy, one changed number),
 - three versions of one policy (v1 and v2 superseded, v3 current) plus a draft that was never effective,
@@ -51,7 +51,7 @@ Output: `docs/a4-ingest-report.md` with counts: files in, duplicates removed, qu
 - **Metrics:** recall@3, MRR, and **stale-hit rate** (top result is superseded while a current version exists). Report a 2 x 3 grid (chunking x retriever) in `docs/a4-eval.md`. Keep the comparison honest: 20 questions is small, so report counts, not just percentages, and say which differences are within noise.
 - Wire the winner into `policies.py` behind the existing `search` and `answer` interface so A1 and A3 callers do not change. Update the mock API `/policies` endpoint to use it.
 
-## 3. Long-term memory of customer history (`opspilot/memory.py`)
+## 3. Long-term memory of customer history (`ticketpilot/memory.py`)
 Design (also written up in `docs/decisions.md`):
 | Kind | Stored | Written when | Expires |
 |---|---|---|---|
@@ -73,7 +73,7 @@ Do not invent one. Procedure:
 3. Fix with the index-time status filter, version header in every chunk, and the `supersedes` link, then re-run and log before and after in `docs/agent-log.md` and `docs/decisions.md`.
 4. If naive retrieval does not fail, say so and use a stale-memory case (an episodic entry from before a policy change) instead.
 
-## 5. Classifier (`ml/` and `opspilot/classifier.py`)
+## 5. Classifier (`ml/` and `ticketpilot/classifier.py`)
 **Data.** `make_tickets.py` already maps Banking77 intents to 7 of the 8 categories (decision recorded in `docs/decisions.md`). Banking77 has no loan or credit intents, so `loans_credit` comes from CFPB complaints via a product-to-category mapping in `tools/gen/make_labelled.py`.
 - CFPB narratives are long and Banking77 queries are short. A model can learn the text style instead of the topic. Mitigation: clip CFPB narratives to the first one or two sentences, cap the class size, and report the confound in `docs/a4-eval.md`.
 

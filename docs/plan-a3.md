@@ -1,15 +1,15 @@
-# Plan: A3, Tools and MCP server (OpsPilot v2)
+# Plan: A3, Tools and MCP server (TicketPilot v2)
 
 Rubric focus: D3 architecture, D4 verification, D6 collaboration. Week 2, 7% of grade.
 
 ## Context
-Syllabus task: wrap the mock API in an MCP server with **at least 5 tools, 1 resource and 1 agent skill**, and connect OpsPilot to it. Deliver the server, tool descriptions and schemas, error-handling tests, and a note on **one design choice changed after watching the agent misuse a tool**.
+Syllabus task: wrap the mock API in an MCP server with **at least 5 tools, 1 resource and 1 agent skill**, and connect TicketPilot to it. Deliver the server, tool descriptions and schemas, error-handling tests, and a note on **one design choice changed after watching the agent misuse a tool**.
 
-Gaps in our repo: there is no mock API (`mockapi/` and `mcp_server/` are empty `.gitkeep` folders), and no starter kit, so we build both. A1 ticket lookup (`opspilot/tickets.py`) already does the plain-code work and becomes the first backend of the mock API. A3 does not depend on A2.
+Gaps in our repo: there is no mock API (`mockapi/` and `mcp_server/` are empty `.gitkeep` folders), and no starter kit, so we build both. A1 ticket lookup (`ticketpilot/tickets.py`) already does the plain-code work and becomes the first backend of the mock API. A3 does not depend on A2.
 
 ## 1. Architecture
 ```
-CLI / opspilot agent loop
+CLI / ticketpilot agent loop
    -> llm.py (OpenAI-style tool calling, any provider)
    -> MCP client (stdio)  ->  mcp_server/ (FastMCP)  ->  HTTP  ->  mockapi/ (FastAPI)  ->  data/*.jsonl
 ```
@@ -52,10 +52,10 @@ Include deliberate realism: a 404 shape, a 422 shape, and an optional `MOCKAPI_F
 
 **Error contract:** every tool returns structured errors `{error: {code, message, retryable}}` (`not_found`, `invalid_argument`, `upstream_unavailable`, `rate_limited`), never raw stack traces or HTTP bodies. Tool results are size-capped, since big tool output is a context-rot source (ties to A2).
 
-## 4. Connecting OpsPilot
-1. `opspilot/mcp_client.py`: starts the server over stdio, lists tools, converts MCP tool schemas to OpenAI `tools` format, executes calls.
+## 4. Connecting TicketPilot
+1. `ticketpilot/mcp_client.py`: starts the server over stdio, lists tools, converts MCP tool schemas to OpenAI `tools` format, executes calls.
 2. `llm.py`: extend `complete()` with an optional `tools=` parameter and return tool calls in `LLMResult` (still the only module importing the SDK). Validate tool arguments with Pydantic/JSON schema before dispatch.
-3. `opspilot/agent.py`: a bounded loop (max 6 steps, stop on no tool call), tool output wrapped as data (`<tool_result>`) like the ticket text in A1.
+3. `ticketpilot/agent.py`: a bounded loop (max 6 steps, stop on no tool call), tool output wrapped as data (`<tool_result>`) like the ticket text in A1.
 4. Router change: keep the A1 fast path, so a bare "show T-1042" still uses plain code with no LLM. Free-text questions that need lookups ("why is T-1042 still open and what does the customer's history look like?") go to the agent loop.
 5. `fake` provider: scripted tool-call sequences so tests stay offline.
 
@@ -91,7 +91,7 @@ After the server works, run about 10 realistic prompts against Groq and read the
 
 ## 9. Verification
 - `LLM_PROVIDER=fake .venv/bin/python -m pytest -q` (all old and new tests).
-- Start the stack: `uvicorn mockapi.main:app`, then run `.venv/bin/python -m opspilot "..."` and check a multi-tool question end to end.
+- Start the stack: `uvicorn mockapi.main:app`, then run `.venv/bin/python -m ticketpilot "..."` and check a multi-tool question end to end.
 - Inspect the server with the MCP Inspector (`npx @modelcontextprotocol/inspector`) to confirm schemas render and the resource lists.
 - Kill the mock API mid-run and confirm the agent reports `upstream_unavailable` instead of inventing data.
 - Grep for key-shaped strings in tracked files before any commit.

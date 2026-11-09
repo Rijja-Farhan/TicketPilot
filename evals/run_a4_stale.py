@@ -13,9 +13,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from opspilot import llm, policies  # noqa: E402
-from opspilot.config import INDEX_DIR, load_settings  # noqa: E402
-from opspilot.retrieval import ALL_STATUSES, Index  # noqa: E402
+from ticketpilot import llm, policies  # noqa: E402
+from ticketpilot.config import INDEX_DIR, load_settings  # noqa: E402
+from ticketpilot.retrieval import ALL_STATUSES, Index  # noqa: E402
 
 NAIVE_PROMPT = ("Answer the support agent's question using only the passages below. Be brief.\n\nPASSAGES:\n{passages}")
 

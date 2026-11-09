@@ -1,9 +1,9 @@
-# Plan: A5, Coworker agent with harness (OpsPilot v3)
+# Plan: A5, Coworker agent with harness (TicketPilot v3)
 
 Source: syllabus A5 (Week 3, 9% of the evaluation phase). Rubric focus: D3 architecture, D5 safety, D2 spec, D4 verification.
 
 ## Context
-Syllabus task: turn OpsPilot into a coworker that takes a delegated task ("investigate ticket T-1002 and draft a resolution with evidence"), runs an explicit **plan, act, observe, reflect** loop, and returns a report for human review.
+Syllabus task: turn TicketPilot into a coworker that takes a delegated task ("investigate ticket T-1002 and draft a resolution with evidence"), runs an explicit **plan, act, observe, reflect** loop, and returns a report for human review.
 
 Deliverables (each maps to a section below):
 | Deliverable | Section |
@@ -14,7 +14,7 @@ Deliverables (each maps to a section below):
 | One-page justification of multi-agent vs single agent | 6 |
 
 What we build on:
-- `opspilot/agent.py` (A3) is a bounded Q&A loop with a repeat guard and a write gate. It stays as the assistant path. The coworker is a new module so A1, A3 and A4 behaviour and tests do not change.
+- `ticketpilot/agent.py` (A3) is a bounded Q&A loop with a repeat guard and a write gate. It stays as the assistant path. The coworker is a new module so A1, A3 and A4 behaviour and tests do not change.
 - Tools (6 MCP tools), the triage skill, memory (A4), hybrid retrieval and the classifier (A4) already exist and are reused, not rebuilt.
 - A3's lesson holds: rules that matter are enforced in code, not in the prompt.
 
@@ -26,7 +26,7 @@ Gaps today:
 - `docs/spec-a5.md` with the task contract, report schema, harness table and acceptance criteria (section 9), written before code.
 - Write 3 delegated tasks and their expected evidence **before** running anything: one clean case, one that needs customer history and a policy lookup, one hostile case (ticket body contains an instruction aimed at the agent). The hostile one is a test, not a staged failure for the trace deliverable.
 
-## 1. The loop (`opspilot/coworker.py`)
+## 1. The loop (`ticketpilot/coworker.py`)
 One run is a small state machine. Each phase is a function, so each is testable on its own.
 
 | Phase | Who decides | What happens |
@@ -45,9 +45,9 @@ Loop: PLAN once, then ACT, OBSERVE, REFLECT until REFLECT says `enough` or a sto
 The report is a draft. It never says an action was taken.
 
 ## 2. Wiring
-- `opspilot/router.py`: new route `investigate` for "investigate", "look into", "draft a resolution", "root cause" plus a ticket ID. Regex first, as for the other routes. Bare ticket lookups and A3 questions are unchanged.
-- `opspilot/cli.py`: `python -m opspilot "investigate T-1002"` runs the coworker and prints the report. `--resume RUN_ID` continues a saved run. `--runs` lists recent runs.
-- Add one tool through the MCP server if it earns its place: `classify_ticket(text)` wrapping `opspilot/classifier.py`, returning label, probability and whether it is below the deferral threshold. Read-only. If it is not added, the coworker calls the classifier in code and records it in the ledger like any tool.
+- `ticketpilot/router.py`: new route `investigate` for "investigate", "look into", "draft a resolution", "root cause" plus a ticket ID. Regex first, as for the other routes. Bare ticket lookups and A3 questions are unchanged.
+- `ticketpilot/cli.py`: `python -m ticketpilot "investigate T-1002"` runs the coworker and prints the report. `--resume RUN_ID` continues a saved run. `--runs` lists recent runs.
+- Add one tool through the MCP server if it earns its place: `classify_ticket(text)` wrapping `ticketpilot/classifier.py`, returning label, probability and whether it is below the deferral threshold. Read-only. If it is not added, the coworker calls the classifier in code and records it in the ledger like any tool.
 - Reuse `Memory` as in A3: load a `<memory>` block for the customer at start, `record_run` at the end, written by code.
 - Fake provider: scripted PLAN, tool calls, REFLECT and REPORT sequences so every test is offline.
 
@@ -65,7 +65,7 @@ The report is a draft. It never says an action was taken.
 
 Record each design choice and its alternative in `docs/decisions.md`: for example, deny writes outright versus an approval prompt (approval flows are Week 4), and checkpoint per step versus per phase.
 
-## 4. Verification step (`opspilot/verify.py`)
+## 4. Verification step (`ticketpilot/verify.py`)
 Two layers, cheapest first.
 
 **Code checks (deterministic, no model):**
@@ -130,7 +130,7 @@ Default position, to be tested against the traces rather than assumed: **single 
 
 ## 10. Verification
 - `LLM_PROVIDER=fake .venv/bin/python -m pytest -q`.
-- Live: start the mock API, run `python -m opspilot "investigate T-1002"` and read the trace line by line.
+- Live: start the mock API, run `python -m ticketpilot "investigate T-1002"` and read the trace line by line.
 - Kill the API mid-run and confirm `upstream_unavailable`, bounded retries and a `partial` report, no invented data.
 - Interrupt a run, then `--resume`, and confirm no duplicate tool calls in the trace.
 - Run the injection ticket and confirm zero write calls in the trace.

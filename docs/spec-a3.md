@@ -1,12 +1,12 @@
-# Spec: A3, OpsPilot v2 tools and MCP server
+# Spec: A3, TicketPilot v2 tools and MCP server
 
 Source: `docs/plan-a3.md`. Domain: `docs/domain.md`. Builds on `docs/spec-a1.md`.
 
 ## Goal
-OpsPilot answers multi-step support questions ("why is T-1002 still open and has the customer had other trouble?") by calling tools. The tools live in our own MCP server, which wraps a mock HTTP API over synthetic data.
+TicketPilot answers multi-step support questions ("why is T-1002 still open and has the customer had other trouble?") by calling tools. The tools live in our own MCP server, which wraps a mock HTTP API over synthetic data.
 
 ```
-opspilot agent loop -> llm.py (tool calling) -> MCP client (stdio) -> mcp_server -> HTTP -> mockapi -> data/*.jsonl
+ticketpilot agent loop -> llm.py (tool calling) -> MCP client (stdio) -> mcp_server -> HTTP -> mockapi -> data/*.jsonl
 ```
 
 ## Components
@@ -14,8 +14,8 @@ opspilot agent loop -> llm.py (tool calling) -> MCP client (stdio) -> mcp_server
 |---|---|---|
 | Mock API | `mockapi/` (FastAPI) | Read-mostly; one write (append a note). Synthetic data only |
 | MCP server | `mcp_server/server.py` (mcp 2.x `MCPServer`) | No business logic; validates input, calls the API, maps failures to the error contract |
-| MCP client | `opspilot/mcp_client.py` | Lists tools, converts schemas to OpenAI format, executes calls |
-| Agent loop | `opspilot/agent.py` | At most 6 steps; tool output wrapped as data |
+| MCP client | `ticketpilot/mcp_client.py` | Lists tools, converts schemas to OpenAI format, executes calls |
+| Agent loop | `ticketpilot/agent.py` | At most 6 steps; tool output wrapped as data |
 | Skill | `skills/triage-ticket/SKILL.md` | Procedure the agent follows for triage |
 
 ## Mock API
@@ -70,7 +70,7 @@ Agent-side codes (not from the server): `duplicate_call` (identical repeat), `no
 - Generate data: `.venv/bin/python tools/gen/make_customers.py`
 - Run API: `.venv/bin/python -m uvicorn mockapi.main:app --port 8000`
 - Run MCP server: `.venv/bin/python -m mcp_server`
-- Ask with tools: `.venv/bin/python -m opspilot "why is T-1002 still open?"`
+- Ask with tools: `.venv/bin/python -m ticketpilot "why is T-1002 still open?"`
 
 ## Out of scope
 Memory, embeddings and chunking, classifier, approvals and harness, eval suite, auth, web UI.

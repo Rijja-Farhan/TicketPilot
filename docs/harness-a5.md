@@ -1,6 +1,6 @@
 # Harness design (A5)
 
-Source of truth: `docs/spec-a5.md`. Code: `opspilot/coworker.py`, `budget.py`, `runstate.py`, `trace.py`, `verify.py`.
+Source of truth: `docs/spec-a5.md`. Code: `ticketpilot/coworker.py`, `budget.py`, `runstate.py`, `trace.py`, `verify.py`.
 
 The model proposes; the code decides. Every row below is enforced in code, none of it in the prompt alone.
 

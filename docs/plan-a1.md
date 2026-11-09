@@ -1,9 +1,9 @@
-# Plan: A1, Spec-driven assistant build (OpsPilot v1)
+# Plan: A1, Spec-driven assistant build (TicketPilot v1)
 
 Rubric focus: D2 spec and context, D3 architecture, D4 verification, D7 communication. Due end of Week 1 with A2.
 
 ## 1. Goal
-OpsPilot v1 is an **assistant**: a support agent asks a question and gets an answer. It must
+TicketPilot v1 is an **assistant**: a support agent asks a question and gets an answer. It must
 1. answer questions about **policies** (cited from the knowledge base), and
 2. answer **ticket lookups** as **structured JSON**.
 
@@ -21,8 +21,8 @@ A small router decides the path: regex for ticket IDs first, an LLM intent call 
 Groq, OpenAI, Together, OpenRouter, Ollama, Gemini and Anthropic all expose OpenAI-compatible chat endpoints. So use the single `openai` Python SDK and put everything provider-specific in one table. No LiteLLM-style framework is needed.
 
 ```
-opspilot/llm.py      # the only module that imports the SDK
-opspilot/config.py   # reads .env
+ticketpilot/llm.py      # the only module that imports the SDK
+ticketpilot/config.py   # reads .env
 .env                 # LLM_PROVIDER=groq   <- the one line you change
 .env.example         # committed; no secrets
 ```
@@ -71,7 +71,7 @@ Not found returns `found: false` plus an error code, never an invented ticket. P
 
 ## 6. Architecture
 ```
-CLI (python -m opspilot "question")
+CLI (python -m ticketpilot "question")
   -> router (regex, then LLM intent)
        -> ticket_store (plain code) -> JSON
        -> policy_search (BM25) + llm.complete -> answer + citations

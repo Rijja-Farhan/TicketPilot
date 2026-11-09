@@ -1,7 +1,7 @@
 import json
 
 from evals import judge as j
-from opspilot.llm import LLMError, LLMResult
+from ticketpilot.llm import LLMError, LLMResult
 
 
 def scripted(scores, messages_seen=None):
@@ -50,7 +50,7 @@ def test_judge_never_sees_the_expected_answer_or_system_prompt_or_verdicts():
     report = {**REPORT, "verification": {"passed": ["evidence_ids"]}, "expected": "SECRET GOLD"}
     j.judge("investigate T-1002", LEDGER, report, ask=scripted({n: 2 for n in j.CRITERIA}, seen))
     blob = json.dumps(seen)
-    assert "SECRET GOLD" not in blob and "evidence_ids\"]" not in blob and "OpsPilot" not in blob
+    assert "SECRET GOLD" not in blob and "evidence_ids\"]" not in blob and "TicketPilot" not in blob
     assert "investigate T-1002" in blob and "T-1002" in blob and "open" in blob      # task, evidence and report are there
 
 

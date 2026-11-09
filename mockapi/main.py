@@ -18,9 +18,9 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from opspilot import policies, tickets
-from opspilot.config import CUSTOMERS_PATH, NOTES_PATH, TRANSACTIONS_PATH
-from opspilot.schemas import Category, Status
+from ticketpilot import policies, tickets
+from ticketpilot.config import CUSTOMERS_PATH, NOTES_PATH, TRANSACTIONS_PATH
+from ticketpilot.schemas import Category, Status
 
 app = FastAPI(title="Northwind Pay mock API")
 MAX_LIMIT = 50

@@ -1,7 +1,7 @@
 """Trajectory checks over an A5 run trace (spec-a6 'Trajectory checks'). Pure functions of `RunTrace.read()` events, so
 each is testable on a hand-built trace. Coworker runs only: the A3 loop writes no trace.
 
-Events used (see opspilot/coworker.py): act(kind=tool|denied|duplicate, tool, args, attempt, ok, error, retryable),
+Events used (see ticketpilot/coworker.py): act(kind=tool|denied|duplicate, tool, args, attempt, ok, error, retryable),
 plan(kind=plan), reflect, verify, report(kind=final, budget_used), stop(stop_reason).
 """
 from dataclasses import dataclass

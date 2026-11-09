@@ -13,10 +13,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from opspilot.embeddings import get_embedder  # noqa: E402
-from opspilot.ingest.chunk import STRATEGIES  # noqa: E402
-from opspilot.ingest.pipeline import ingest  # noqa: E402
-from opspilot.retrieval import ALL_STATUSES, CURRENT, Index  # noqa: E402
+from ticketpilot.embeddings import get_embedder  # noqa: E402
+from ticketpilot.ingest.chunk import STRATEGIES  # noqa: E402
+from ticketpilot.ingest.pipeline import ingest  # noqa: E402
+from ticketpilot.retrieval import ALL_STATUSES, CURRENT, Index  # noqa: E402
 
 QUESTIONS = ROOT / "evals" / "a4_retrieval.jsonl"
 GRID = ROOT / "docs" / "a4-retrieval-grid.md"

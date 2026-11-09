@@ -1,6 +1,6 @@
-# Spec: A6, eval suite and improvement loop (OpsPilot v3, part 2)
+# Spec: A6, eval suite and improvement loop (TicketPilot v3, part 2)
 
-Source: `docs/plan-a6.md`. Reads, never changes: the A5 trace format (`traces/runs/*.jsonl`), the fixed classifier split (`data/splits/`), `opspilot/verify.py`. One A5 change is allowed and additive: the `act` trace event gains a `retryable` field, so retry discipline can be graded.
+Source: `docs/plan-a6.md`. Reads, never changes: the A5 trace format (`traces/runs/*.jsonl`), the fixed classifier split (`data/splits/`), `ticketpilot/verify.py`. One A5 change is allowed and additive: the `act` trace event gains a `retryable` field, so retry discipline can be graded.
 
 ## Case schema (`evals/cases/*.jsonl`, one file per component)
 `id, split (dev|held_out), component, input, setup, expected, graders, severity (high|medium|low), source (new|a1|a4|a5), live (bool), adversarial (bool)`.
